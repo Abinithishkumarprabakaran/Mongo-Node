@@ -9,8 +9,6 @@ const PORT = 4000;
 
 // const MONGO_URL = "mongodb://127.0.0.1"
 
-// mongodb+srv://nithishkumar:<password>@cluster0.i75tmrp.mongodb.net/?retryWrites=true&w=majority
-
 // console.log(process.env.MONGO_URL)
 
 

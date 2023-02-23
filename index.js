@@ -3,6 +3,8 @@ import * as dotenv from 'dotenv' // see https://github.com/motdotla/dotenv#how-d
 dotenv.config()
 import express from "express"; //type: "module"
 import { MongoClient } from "mongodb";
+import moviesRouter from "./router/movies.router.js"
+
 const app = express();
 
 const PORT = process.env.PORT; // Auto Assignable
@@ -116,83 +118,8 @@ app.get("/", function (request, response) {
 //     }
 //   ]
   
-app.get("/movies", async function (request, response) {
-
-  // db.movies.find({})
-  // Cursor - Pagination
-
-  const res = await client
-    .db("newMongo")
-    .collection("movies")
-    .find({})
-
-  response.send(res);
-});
-
-app.get("/movies/:id", async function (request, response) {
-  const {id} = request.params;
-  console.log(id);
-
-  const movie = await client
-    .db("newMongo")
-    .collection("movies")
-    .findOne({ id : id })
-
-  movie ? response.send(movie) : response.status(404).send({message : "Movie not Found"});
-});
-
-// app.get("/movies/:id", function (request, response) {
-//   const {id} = request.params;
-//   console.log(id);
-//   const movie = movies.find((mv) => mv.id === id);
-//   movie ? response.send(movie) : response.send({message : "Movie not Found"});
-// });
-
-// express.json() -> middleware
-app.post("/movies",express.json(), async function (request, response) {
-  const data = request.body;
-  console.log(data);
-
-  //db.movies.insertMany(data)
-  const res = await client
-    .db("newMongo")
-    .collection("movies")
-    .insertMany(data)
-
-  response.send(res);
-})
-
-// Delete
-app.delete("/movies/:id", async function (request, response) {
-  const {id} = request.params;
-  console.log(id);
-  // db.movies.deleteOne({ id: "1000" })
-
-  const result = await client
-    .db("newMongo")
-    .collection("movies")
-    .deleteOne({ id : id })
-
-  console.log(result)
-  result.deletedCount >= 1
-   ? response.send({ message : "Movie Deleted Successfully" }) 
-   : response.status(404).send({message : "Movie not Found"});
-});
-
-// Update
-app.put("/movies/:id",express.json(), async function (request, response) {
-  const {id} = request.params;
-  const data = request.body;
-  console.log(data);
-  console.log(id);
-  // db.movies.updateOne({ id: id }, { $set: data })
-
-  const result = await client
-    .db("newMongo")
-    .collection("movies")
-    .updateOne({ id: id}, { $set: data })
-
-  response.send(result);
-});
+app.use("/movies", moviesRouter);
 
 app.listen(PORT, () => console.log(`The server started in: ${PORT} ✨✨`));
+
+export { client }

@@ -14,7 +14,7 @@ router.get("/", async function (request, response) {
 
 router.get("/:id", async function (request, response) {
   const {id} = request.params;
-  console.log(id);
+  // console.log(id);
 
   const movie = await getMoviesbyId(id)
 
@@ -45,12 +45,12 @@ router.post("/",express.json(), async function (request, response) {
 // Delete
 router.delete("/:id", async function (request, response) {
   const {id} = request.params;
-  console.log(id);
+  // console.log(id);
   // db.movies.deleteOne({ id: "1000" })
 
   const result = await deleteMoviesbyId(id)
 
-  console.log(result)
+  // console.log(result)
   result.deletedCount >= 1
    ? response.send({ message : "Movie Deleted Successfully" }) 
    : response.status(404).send({message : "Movie not Found"});
@@ -60,8 +60,8 @@ router.delete("/:id", async function (request, response) {
 router.put("/:id",express.json(), async function (request, response) {
   const {id} = request.params;
   const data = request.body;
-  console.log(data);
-  console.log(id);
+  // console.log(data);
+  // console.log(id);
   // db.movies.updateOne({ id: id }, { $set: data })
 
   const result = await updateMoviesById(id, data)

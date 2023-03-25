@@ -6,6 +6,7 @@ import { MongoClient } from "mongodb";
 import moviesRouter from "./router/movies.router.js"
 import userRouter from "./router/users.router.js"
 import cors from 'cors';
+import bcrypt from 'bcrypt';
 
 const app = express();
 

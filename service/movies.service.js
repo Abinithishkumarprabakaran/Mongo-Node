@@ -25,10 +25,10 @@ export async function getMoviesbyId(id) {
         .collection("movies")
         .findOne({ _id: new ObjectId(id) });
 }
-export async function getAllMovies() {
+export async function getAllMovies(query) {
     return await client
         .db("newMongo")
         .collection("movies")
-        .find({})
+        .find(query)
         .toArray();
 }

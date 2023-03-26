@@ -6,9 +6,16 @@ const router = express.Router();
 router.get("/", auth, async function (request, response) {
 
   // db.movies.find({})
-  // Cursor - Pagination
+  // console.log(request.query)
 
-  const res = await getAllMovies()
+  if(request.query.rating) {
+    request.query.rating = +request.query.rating
+  }
+
+  // console.log(request.query);
+
+  // Cursor - Pagination
+  const res = await getAllMovies(request.query)
 
   response.send(res);
 });

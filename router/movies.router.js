@@ -1,8 +1,9 @@
 import express from "express";
+import { auth } from "../middleware/auth.js";
 import { getAllMovies, getMoviesbyId, createMovies, deleteMoviesbyId, updateMoviesById } from "../service/movies.service.js";
 const router = express.Router();
 
-router.get("/", async function (request, response) {
+router.get("/", auth, async function (request, response) {
 
   // db.movies.find({})
   // Cursor - Pagination
@@ -12,7 +13,7 @@ router.get("/", async function (request, response) {
   response.send(res);
 });
 
-router.get("/:id", async function (request, response) {
+router.get("/:id", auth, async function (request, response) {
   const {id} = request.params;
   // console.log(id);
 
@@ -32,7 +33,7 @@ router.get("/:id", async function (request, response) {
 // express.json() -> middleware
 
 // Create
-router.post("/",express.json(), async function (request, response) {
+router.post("/", auth, async function (request, response) {
   const data = request.body;
   console.log(data);
 
@@ -43,7 +44,7 @@ router.post("/",express.json(), async function (request, response) {
 })
 
 // Delete
-router.delete("/:id", async function (request, response) {
+router.delete("/:id", auth, async function (request, response) {
   const {id} = request.params;
   // console.log(id);
   // db.movies.deleteOne({ id: "1000" })
@@ -57,7 +58,7 @@ router.delete("/:id", async function (request, response) {
 });
 
 // Update
-router.put("/:id",express.json(), async function (request, response) {
+router.put("/:id", auth, async function (request, response) {
   const {id} = request.params;
   const data = request.body;
   // console.log(data);

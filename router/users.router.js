@@ -1,8 +1,9 @@
 import express from "express";
 import { createUser, getUserByName } from "../service/users.service.js";
-const router = express.Router();
-
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+
+const router = express.Router();
 
 async function generateHashedPassword( password ) {
   const NO_OF_ROUNDS = 10;
@@ -39,7 +40,7 @@ router.post("/login", async function (request, response) {
   const { username, password } = request.body;
 
   const userFromDB = await getUserByName(username);
-  console.log(userFromDB)
+  // console.log(userFromDB)
 
   if( !userFromDB ) {
     response.status(404).send({message: "Invalid Credentials"})
@@ -49,7 +50,9 @@ router.post("/login", async function (request, response) {
     const isPasswordCheck = await bcrypt.compare(password, storedDBPassword)
     // console.log(isPasswordCheck)
     if( isPasswordCheck ) {
-      response.send({ message: 'Login successful' })
+      const token = jwt.sign({ id: userFromDB._id }, process.env.SECRET_KEY)
+      // console.log(token)
+      response.send({ message: 'Login successful', token: token })
     }
     else {
       response.status(400).send({ message: 'Invalid Credentials' })

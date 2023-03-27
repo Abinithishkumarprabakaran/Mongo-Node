@@ -43,7 +43,7 @@ router.post("/login", async function (request, response) {
   // console.log(userFromDB)
 
   if( !userFromDB ) {
-    response.status(404).send({message: "Invalid Credentials"})
+    response.status(401).send({message: "Invalid Credentials"})
   }
   else {
     const storedDBPassword = userFromDB.password;
@@ -55,7 +55,7 @@ router.post("/login", async function (request, response) {
       response.send({ message: 'Login successful', token: token })
     }
     else {
-      response.status(400).send({ message: 'Invalid Credentials' })
+      response.status(401).send({ message: 'Invalid Credentials' })
     }
   }
 })
